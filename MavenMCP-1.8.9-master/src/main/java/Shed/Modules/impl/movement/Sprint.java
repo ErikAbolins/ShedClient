@@ -8,7 +8,7 @@ import Shed.Modules.ModuleInfo;
         name = "Sprint",
         description = "Automatically sprints",
         category = Category.MOVEMENT,
-        enabled = true
+        enabled = false
 )
 public class Sprint extends Module {
     @Override

@@ -1,16 +1,20 @@
 package Shed;
 
 import Shed.Modules.ModuleManager;
+import Shed.event.impl.EventKey;
 import lombok.Getter;
 import me.zero.alpine.bus.EventBus;
 import me.zero.alpine.bus.EventManager;
+import me.zero.alpine.listener.Listener;
 import me.zero.alpine.listener.Subscribe;
 import me.zero.alpine.listener.Subscriber;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import Shed.event.impl.Event2D;
+import Shed.UI.ClickGUI.ClickGUIScreen;
 
 @Getter
 public enum Shed implements Subscriber {
@@ -36,4 +40,11 @@ public enum Shed implements Subscriber {
     public void shutdown(){
         BUS.unsubscribe(this);
     }
+
+    @Subscribe
+    private final Listener<EventKey> keyListener = new Listener<>(e -> {
+       if(e.getKey() == Keyboard.KEY_RSHIFT){
+           mc.displayGuiScreen(new ClickGUIScreen());
+       }
+    });
 }

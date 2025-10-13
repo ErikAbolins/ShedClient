@@ -8,7 +8,7 @@ import Shed.Modules.ModuleInfo;
         name = "Flight",
         description = "Simple Fly",
         category = Category.MOVEMENT,
-        enabled = true
+        enabled = false
 )
 public class Flight extends Module {
     @Override
