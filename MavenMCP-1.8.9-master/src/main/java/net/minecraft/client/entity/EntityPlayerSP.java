@@ -2,6 +2,7 @@ package net.minecraft.client.entity;
 
 import Shed.Modules.impl.movement.NoSlowDown;
 import Shed.Shed;
+import Shed.event.impl.EventMotion;
 import Shed.event.impl.EventUpdate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -133,6 +134,23 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void onUpdateWalkingPlayer()
     {
+        // PRE event - fire before any packets are sent
+        EventMotion preEvent = new EventMotion(
+                EventMotion.Type.PRE,
+                this.posX,
+                this.getEntityBoundingBox().minY,
+                this.posZ,
+                this.rotationYaw,
+                this.rotationPitch,
+                this.onGround
+        );
+        Shed.BUS.post(preEvent);
+
+        // Apply any rotation changes from the event
+        this.rotationYaw = preEvent.getYaw();
+        this.rotationPitch = preEvent.getPitch();
+        this.onGround = preEvent.isOnGround();
+
         boolean flag = this.isSprinting();
 
         if (flag != this.serverSprintState)
@@ -216,6 +234,18 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.lastReportedPitch = this.rotationPitch;
             }
         }
+
+        // POST event - fire after packets are sent
+        EventMotion postEvent = new EventMotion(
+                EventMotion.Type.POST,
+                this.posX,
+                this.getEntityBoundingBox().minY,
+                this.posZ,
+                this.rotationYaw,
+                this.rotationPitch,
+                this.onGround
+        );
+        Shed.BUS.post(postEvent);
     }
 
     public EntityItem dropOneItem(boolean dropAll)

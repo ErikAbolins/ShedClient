@@ -19,7 +19,7 @@ public class KeyBinding implements Comparable<KeyBinding>
     private final String keyCategory;
     private int keyCode;
     @Setter
-    private boolean pressed;
+    public boolean pressed;
     private int pressTime;
 
     public static void onTick(int keyCode)

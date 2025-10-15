@@ -53,6 +53,6 @@ public class ClickGUIScreen extends GuiScreen {
 
     @Override
     public boolean doesGuiPauseGame() {
-        return false; // Don't pause game when GUI is open
+        return false;
     }
 }
