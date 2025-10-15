@@ -1,6 +1,8 @@
 package Shed.Modules;
 
+import Shed.Notification.NotificationManager;
 import lombok.Getter;
+import lombok.Setter;
 import me.zero.alpine.listener.Listener;
 import me.zero.alpine.listener.Subscriber;
 import net.minecraft.client.gui.FontRenderer;
@@ -18,6 +20,9 @@ public abstract class Module implements Subscriber {
     private final Category category;
     private final boolean enabledByDefault;
     private boolean toggled;
+
+    @Setter
+    private int key;
 
     protected final Minecraft mc = Shed.INSTANCE.getMc();
     protected final FontRenderer fr = Shed.INSTANCE.getFr();
@@ -46,6 +51,8 @@ public abstract class Module implements Subscriber {
         if(this.toggled == state) return;
         this.toggled = state;
 
+        onToggle();
+
         if (state) {
             Shed.BUS.subscribe(this);
             Shed.BUS.subscribe(eventUpdateListener);
@@ -58,6 +65,14 @@ public abstract class Module implements Subscriber {
             Shed.BUS.unsubscribe(event2DListener);
             Shed.BUS.unsubscribe(eventKeyListener);
             onDisable();
+        }
+    }
+
+    public void onToggle() {
+        if(mc.theWorld != null) {
+            if(!this.getName().equalsIgnoreCase("clickgui")) {
+                NotificationManager.addNotification(this.getName(), toggled);
+            }
         }
     }
 

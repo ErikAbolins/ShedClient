@@ -43,7 +43,15 @@ public enum Shed implements Subscriber {
 
     @Subscribe
     private final Listener<EventKey> keyListener = new Listener<>(e -> {
-       if(e.getKey() == Keyboard.KEY_RSHIFT){
+       if(moduleManager != null){
+           moduleManager.getModules().values().forEach(module -> {
+               if(module.getKey() == e.getKey()){
+                   module.toggle();
+               }
+           });
+       }
+
+        if(e.getKey() == Keyboard.KEY_RSHIFT){
            mc.displayGuiScreen(new ClickGUIScreen());
        }
     });

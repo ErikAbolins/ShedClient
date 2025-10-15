@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer;
 
+import Shed.UI.MainMenu.MainMenuGUI;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
@@ -2596,9 +2597,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
             }
         }
 
-        if (this.mc.currentScreen instanceof GuiMainMenu)
+        if (this.mc.currentScreen instanceof MainMenuGUI)
         {
-            this.updateMainMenu((GuiMainMenu)this.mc.currentScreen);
+            this.updateMainMenu((MainMenuGUI)this.mc.currentScreen);
         }
 
         if (this.updatedWorld != world)
@@ -2636,7 +2637,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
     }
 
-    private void updateMainMenu(GuiMainMenu p_updateMainMenu_1_)
+    private void updateMainMenu(MainMenuGUI p_updateMainMenu_1_)
     {
         try
         {

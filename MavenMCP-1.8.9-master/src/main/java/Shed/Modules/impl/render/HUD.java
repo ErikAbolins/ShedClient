@@ -3,6 +3,7 @@ package Shed.Modules.impl.render;
 import Shed.Modules.Category;
 import Shed.Modules.Module;
 import Shed.Modules.ModuleInfo;
+import Shed.Notification.NotificationManager;
 import Shed.Shed;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.opengl.GL11;
@@ -24,6 +25,7 @@ public class HUD extends Module {
         renderWatermark();
         renderInfo();
         renderArraylist(sr);
+        NotificationManager.renderNotifications();
     }
 
     private void renderWatermark() {

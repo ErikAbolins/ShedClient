@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import Shed.Modules.impl.movement.NoSlowDown;
 import Shed.Shed;
 import Shed.event.impl.EventUpdate;
 import net.minecraft.client.Minecraft;
@@ -660,7 +661,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         boolean flag2 = this.movementInput.moveForward >= f;
         this.movementInput.updatePlayerMoveState();
 
-        if (this.isUsingItem() && !this.isRiding())
+        if (this.isUsingItem() && !this.isRiding() && !Shed.INSTANCE.getModuleManager().getModule(NoSlowDown.class).isToggled())
         {
             this.movementInput.moveStrafe *= 0.2F;
             this.movementInput.moveForward *= 0.2F;
