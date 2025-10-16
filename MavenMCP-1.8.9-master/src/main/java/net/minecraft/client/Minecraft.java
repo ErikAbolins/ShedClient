@@ -1,6 +1,7 @@
 package net.minecraft.client;
 
 import Shed.Shed;
+import Shed.Modules.TickHandler;
 import Shed.UI.MainMenu.MainMenuGUI;
 import Shed.event.impl.EventKey;
 import com.google.common.collect.Iterables;
@@ -190,6 +191,7 @@ import org.lwjgl.util.glu.GLU;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
+    private final TickHandler tickHandler = new TickHandler();
     private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
     public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
@@ -2128,6 +2130,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
 
         this.mcProfiler.endSection();
+        this.tickHandler.onClientTick();
+
         this.systemTime = getSystemTime();
     }
 

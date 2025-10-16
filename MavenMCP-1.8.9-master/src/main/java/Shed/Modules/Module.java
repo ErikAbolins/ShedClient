@@ -30,7 +30,7 @@ public abstract class Module implements Subscriber {
     @Setter
     private int key;
 
-    protected final Minecraft mc = Shed.INSTANCE.getMc();
+    protected static final Minecraft mc = Shed.INSTANCE.getMc();
     protected final FontRenderer fr = Shed.INSTANCE.getFr();
 
     private final Listener<EventUpdate> eventUpdateListener = new Listener<>(e -> onUpdate());
