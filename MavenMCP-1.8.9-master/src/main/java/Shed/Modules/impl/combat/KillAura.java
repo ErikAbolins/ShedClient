@@ -3,6 +3,8 @@ package Shed.Modules.impl.combat;
 import Shed.Modules.Category;
 import Shed.Modules.Module;
 import Shed.Modules.ModuleInfo;
+import Shed.Setting.impl.BooleanSetting;
+import Shed.Setting.impl.NumberSetting;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,6 +38,11 @@ public class KillAura extends Module {
     private long lastAttack = 0;
 
     public KillAura() {
+        addSetting(
+                new BooleanSetting("Hit Mobs", true),
+                new NumberSetting("Range", 3.0, 2.5, 10.0, 0.1)
+        );
+
         setKey(Keyboard.KEY_F);
     }
 

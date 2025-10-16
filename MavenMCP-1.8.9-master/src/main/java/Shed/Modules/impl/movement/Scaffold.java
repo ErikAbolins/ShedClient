@@ -26,6 +26,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(
         name = "Scaffold",
@@ -35,6 +36,10 @@ import net.minecraft.util.Vec3;
 )
 @Getter
 public class Scaffold extends Module {
+
+    public Scaffold() {
+        setKey(Keyboard.KEY_V);
+    }
 
     private float yaw;
     private float pitch;

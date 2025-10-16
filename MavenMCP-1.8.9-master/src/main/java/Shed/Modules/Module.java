@@ -1,6 +1,6 @@
 package Shed.Modules;
 
-import Shed.Notification.NotificationManager;
+import  Shed.Notification.NotificationManager;
 import lombok.Getter;
 import lombok.Setter;
 import me.zero.alpine.listener.Listener;
@@ -13,12 +13,18 @@ import org.apache.commons.lang3.Validate;
 import Shed.event.impl.Event2D;
 import Shed.event.impl.EventKey;
 import Shed.event.impl.EventUpdate;
+import Shed.Setting.Setting;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 public abstract class Module implements Subscriber {
     private final String name, description;
     private final Category category;
     private final boolean enabledByDefault;
+    private final List<Setting> settingList = new ArrayList<>();
     private boolean toggled;
 
     @Setter
@@ -66,6 +72,10 @@ public abstract class Module implements Subscriber {
             Shed.BUS.unsubscribe(eventKeyListener);
             onDisable();
         }
+    }
+
+    protected void addSetting(Setting... settings) {
+        settingList.addAll(Arrays.asList(settings));
     }
 
     public void onToggle() {
