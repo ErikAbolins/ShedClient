@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer;
 
+import Shed.Modules.impl.render.Charms;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -680,6 +681,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
                     if (entity1.isInRangeToRender3d(d0, d1, d2))
                     {
+
                         this.renderManager.renderEntitySimple(entity1, partialTicks);
                     }
                 }
@@ -781,7 +783,9 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                                         Shaders.nextEntity(entity2);
                                     }
 
+                                    Charms.preRender(entity2);
                                     this.renderManager.renderEntitySimple(entity2, partialTicks);
+                                    Charms.postRender(entity2);
                                     this.renderedEntity = null;
                                     break;
                                 }

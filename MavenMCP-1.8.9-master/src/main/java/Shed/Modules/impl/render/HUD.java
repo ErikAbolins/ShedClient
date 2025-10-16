@@ -20,12 +20,21 @@ import java.util.List;
 )
 public class HUD extends Module {
 
+    private KeyStrokes keyStrokes;
+
+    public HUD() {
+        keyStrokes = new KeyStrokes();
+        keyStrokes.mc = this.mc;
+        keyStrokes.setEnabled(true);
+    }
+
     @Override
     public void on2D(ScaledResolution sr) {
         renderWatermark();
         renderInfo();
         renderArraylist(sr);
         NotificationManager.renderNotifications();
+        keyStrokes.onRender2D();
     }
 
     private void renderWatermark() {
