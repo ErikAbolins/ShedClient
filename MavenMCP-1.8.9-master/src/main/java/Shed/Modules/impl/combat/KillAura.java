@@ -11,6 +11,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.item.ItemSword;
+import Shed.util.RotationUtil;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import org.lwjgl.input.Keyboard;
 
@@ -34,6 +36,8 @@ public class KillAura extends Module {
     private BooleanSetting extraKBSetting;
     private BooleanSetting rotate;
     private ModeSetting priority;
+    private float lastReportedYaw = 0;
+    private float lastReportedPitch = 0;
 
     private EntityLivingBase target;
     private List<EntityLivingBase> entities = new ArrayList<>();
@@ -66,15 +70,31 @@ public class KillAura extends Module {
         target = null;
         entities.clear();
     }
-
     @Override
     public void onUpdate() {
         if (mc.thePlayer == null || mc.theWorld == null) return;
 
         updateTargets();
 
+        if (target != null && isValid(target) && rotate.isEnabled()) {
+            float[] rotations = RotationUtil.getRotations(target);
+
+            lastReportedYaw = mc.thePlayer.rotationYaw;
+            lastReportedPitch = mc.thePlayer.rotationPitch;
+
+            mc.getNetHandler().addToSendQueue(
+                    new C03PacketPlayer.C05PacketPlayerLook(
+                            rotations[0],
+                            rotations[1],
+                            mc.thePlayer.onGround
+                    )
+            );
+        }
+
+
         if (target != null && isValid(target)) {
             long currentTime = System.currentTimeMillis();
+
             if (currentTime - lastAttack >= (1000 / aps.getVal())) {
                 attack(target);
                 lastAttack = currentTime;
@@ -82,12 +102,18 @@ public class KillAura extends Module {
 
             if (autoBlock.isEnabled() && mc.thePlayer.getHeldItem() != null &&
                     mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-                // Auto-block logic
             }
+        }
 
-            if (rotate.isEnabled()) {
-                // Rotate to target logic
-            }
+
+        if (rotate.isEnabled()) {
+            mc.getNetHandler().addToSendQueue(
+                    new C03PacketPlayer.C05PacketPlayerLook(
+                            lastReportedYaw,
+                            lastReportedPitch,
+                            mc.thePlayer.onGround
+                    )
+            );
         }
     }
 
@@ -127,26 +153,27 @@ public class KillAura extends Module {
     private void attack(EntityLivingBase target) {
         if (target == null) return;
 
+
         if (extraKBSetting.isEnabled() && mc.thePlayer.getFoodStats().getFoodLevel() > 6) {
-            mc.thePlayer.setSprinting(true);
-            mc.getNetHandler().addToSendQueue(
-                    new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING)
-            );
+
+            if (!mc.thePlayer.isSprinting()) {
+                mc.getNetHandler().addToSendQueue(
+                        new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING)
+                );
+            }
         }
 
         mc.playerController.attackEntity(mc.thePlayer, target);
+
         mc.thePlayer.swingItem();
 
-        if (extraKBSetting.isEnabled() && mc.thePlayer.getFoodStats().getFoodLevel() > 6) {
-            mc.getNetHandler().addToSendQueue(
-                    new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING)
-            );
-        }
+
     }
 
     private boolean isValid(EntityLivingBase entity) {
         if (entity == null || entity == mc.thePlayer) return false;
         if (entity.isDead || entity.getHealth() <= 0) return false;
+
         if (entity.isInvisible()) return false;
 
         double distance = mc.thePlayer.getDistanceToEntity(entity);
