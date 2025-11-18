@@ -217,13 +217,5 @@ This project is for **educational purposes only**, demonstrating software engine
 - Alpine event bus by ZeroMemes
 - Minecraft by Mojang Studios
 
-## 📧 Contact
-
-Erik Abolins - [GitHub Profile](https://github.com/erikabolins)
-
-Project Link: [https://github.com/erikabolins/ShedClient](https://github.com/erikabolins/ShedClient)
-
----
-
 *Built as a demonstration of advanced Java development and software architecture concepts.*
 =======
