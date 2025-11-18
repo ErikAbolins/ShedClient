@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Shed Client
 
 A modular Minecraft 1.8.9 client modification featuring a comprehensive suite of gameplay enhancements, built with Java and MCP (Minecraft Codebase Project).
