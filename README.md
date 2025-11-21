@@ -151,6 +151,14 @@ The client will launch with Minecraft directory set to `./test_run/`.
     category = Category.PLAYER,
     enabled = false
 )
+    public MyModule() {
+        addSetting(
+                BoolSetting = new BooleanSetting("Name", value),
+                NumSetting = new NumberSetting("Name", default, minimum, maximum, increment),
+                ModeSetting = new ModeSetting("ModeName")
+        );
+}
+
 public class MyModule extends Module {
     @Override
     public void onEnable() {
