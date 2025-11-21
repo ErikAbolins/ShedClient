@@ -216,7 +216,7 @@ This project demonstrates proficiency in:
 
 ## 📝 Disclaimer
 
-This project is for **educational purposes only**, demonstrating software engineering concepts through game modification. Use responsibly and in accordance with server rules and Minecraft's Terms of Service.
+This project is for **educational purposes only**, please do not try to use this on any servers. There are no bypasses so you'll get banned immediately.
 
 ## 🤝 Acknowledgments
 
